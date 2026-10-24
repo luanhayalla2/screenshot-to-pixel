@@ -15,7 +15,7 @@ export class ErroValidacao extends Error {}
 
 export type ResultadoSimulacao = {
   nenhumSelecionado: boolean;
-  mensagem?: string;
+  mensagem: string | null;
   itens: { produtoId: string; nome: string; quantidade: number; precoUnitarioCentavos: number; subtotalCentavos: number }[];
   subtotalCentavos: number;
   descontoPercentual: number;
@@ -53,7 +53,7 @@ export function simular(body: unknown): ResultadoSimulacao {
   const descontoCentavos = Math.round((subtotalCentavos * descontoPercentual) / 100);
   return {
     nenhumSelecionado: itens.length === 0,
-    mensagem: itens.length === 0 ? "Nenhum produto foi selecionado." : undefined,
+    mensagem: itens.length === 0 ? "Nenhum produto foi selecionado." : null,
     itens,
     subtotalCentavos,
     descontoPercentual,
