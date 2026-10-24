@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiProdutosRouteImport } from './routes/api/produtos'
+import { Route as ApiComprasSimularRouteImport } from './routes/api/compras/simular'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProdutosRoute = ApiProdutosRouteImport.update({
+  id: '/api/produtos',
+  path: '/api/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiComprasSimularRoute = ApiComprasSimularRouteImport.update({
+  id: '/api/compras/simular',
+  path: '/api/compras/simular',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/produtos': typeof ApiProdutosRoute
+  '/api/compras/simular': typeof ApiComprasSimularRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/produtos': typeof ApiProdutosRoute
+  '/api/compras/simular': typeof ApiComprasSimularRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/produtos': typeof ApiProdutosRoute
+  '/api/compras/simular': typeof ApiComprasSimularRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/produtos' | '/api/compras/simular'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/produtos' | '/api/compras/simular'
+  id: '__root__' | '/' | '/api/produtos' | '/api/compras/simular'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiProdutosRoute: typeof ApiProdutosRoute
+  ApiComprasSimularRoute: typeof ApiComprasSimularRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/produtos': {
+      id: '/api/produtos'
+      path: '/api/produtos'
+      fullPath: '/api/produtos'
+      preLoaderRoute: typeof ApiProdutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/compras/simular': {
+      id: '/api/compras/simular'
+      path: '/api/compras/simular'
+      fullPath: '/api/compras/simular'
+      preLoaderRoute: typeof ApiComprasSimularRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiProdutosRoute: ApiProdutosRoute,
+  ApiComprasSimularRoute: ApiComprasSimularRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
